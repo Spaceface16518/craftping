@@ -1,7 +1,7 @@
 use std::convert::TryFrom;
 
 use crate::Error;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct RawLatest {
@@ -15,7 +15,7 @@ pub(crate) struct RawLatest {
     pub forge_data: Option<ForgeData>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 /// A ping response returned from server.
 pub struct Response {
     /// The version name of the server.
@@ -82,7 +82,7 @@ pub(crate) struct Players {
     pub sample: Option<Vec<Player>>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 /// The sample players' information.
 pub struct Player {
     /// The name of the player.
@@ -99,7 +99,7 @@ pub(crate) enum RawDescription {
     Chat(Chat),
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// The mod information object used in FML protocol (version 1.7 - 1.12).
 pub struct ModInfo {
     #[serde(rename = "type")]
@@ -111,7 +111,7 @@ pub struct ModInfo {
     pub mod_list: Vec<ModInfoItem>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// The information of an installed mod.
 pub struct ModInfoItem {
     #[serde(rename = "modid")]
@@ -121,7 +121,7 @@ pub struct ModInfoItem {
     pub version: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// The forge information object used in FML2 protocol (version 1.13 - current).
 pub struct ForgeData {
     /// The list of the channels used by the mods.
@@ -133,7 +133,7 @@ pub struct ForgeData {
     pub fml_network_version: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// The information of the channels used by the mods.
 ///
 /// See [the minecraft protocol wiki](https://wiki.vg/Plugin_channels) for more information.
@@ -148,7 +148,7 @@ pub struct ForgeChannel {
     pub required: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 /// The information of an installed mod.
 pub struct ForgeMod {
     #[serde(rename = "modId")]
@@ -159,7 +159,7 @@ pub struct ForgeMod {
     pub mod_marker: String,
 }
 
-#[derive(Debug, Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 /// The chat component used in the server description.
 ///
 /// See also [the minecraft protocol wiki](https://wiki.vg/Chat#Current_system_.28JSON_Chat.29).
